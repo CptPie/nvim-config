@@ -29,3 +29,10 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) 
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) 
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) 
+
+-- command aliases
+vim.api.nvim_create_user_command("W", "w<bang> <args>", { bang = true, nargs = "?", complete = "file", desc = "Alias for :w" })
+vim.api.nvim_create_user_command("Q", "q<bang>", { bang = true, desc = "Alias for :q" })
+vim.api.nvim_create_user_command("Wq", "wq<bang> <args>", { bang = true, nargs = "?", complete = "file", desc = "Alias for :wq" })
+vim.api.nvim_create_user_command("Qa", "qa<bang>", { bang = true, desc = "Alias for :qa" })
+vim.api.nvim_create_user_command("Wqa", "wqa<bang>", { bang = true, desc = "Alias for :wqa" })
