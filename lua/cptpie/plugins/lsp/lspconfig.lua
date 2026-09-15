@@ -33,6 +33,12 @@ return {
 			end,
 		})
 
+		-- Hover float: not focusable (K / CursorHold auto-hover) and framed with a
+		-- thin border. Terminal floats can't have pixel borders; "rounded" is the
+		-- single-line box (use "single" for square corners, "double" for a heavy one).
+		-- Colour comes from the FloatBorder highlight group.
+		local hover_opts = { focusable = false, border = "rounded" }
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
@@ -76,11 +82,11 @@ return {
 
 				opts.desc = "Show documentation for what is under cursor"
 				keymap.set("n", "K", function()
-						vim.lsp.buf.hover({ focusable = false })
+						vim.lsp.buf.hover(hover_opts)
 					end, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
-				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+				keymap.set("n", "<leader>rs", "<cmd>lsp restart<CR>", opts) -- mapping to restart lsp if necessary
 
 				-- Enable inlay hints if the language server supports it
 				local client = vim.lsp.get_client_by_id(ev.data.client_id)
@@ -92,7 +98,7 @@ return {
 				vim.api.nvim_create_autocmd("CursorHold", {
 					buffer = ev.buf,
 					callback = function()
-						vim.lsp.buf.hover({ focusable = false })
+						vim.lsp.buf.hover(hover_opts)
 					end,
 				})
 			end,
